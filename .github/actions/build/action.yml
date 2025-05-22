@@ -28,7 +28,12 @@ runs:
         mkdir ${{ github.workspace }}/build/etc/acdbdata/qcs8300
         mkdir ${{ github.workspace }}/build/etc/acdbdata/qcs9075
         mkdir ${{ github.workspace }}/build/etc/acdbdata/qcs9100
-
+        
+        cp -r qcom/qcm6490/card-defs.xml ${{ github.workspace }}/build/etc/
+        cp -r qcom/qcm6490/acdbdata/* ${{ github.workspace }}/build/etc/acdbdata/qcm6490_rb3/
+        cp -r qcom/qcs8300/acdbdata/* ${{ github.workspace }}/build/etc/acdbdata/qcs8300/
+        cp -r qcom/qcs9100/acdbdata/* ${{ github.workspace }}/build/etc/acdbdata/qcs9100/
+        cp -r qcom/qcs9075/acdbdata/* ${{ github.workspace }}/build/etc/acdbdata/qcs9075/
 
     - name: Create build.tar 
       id: create_build_tar
