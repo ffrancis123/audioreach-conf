@@ -1,0 +1,62 @@
+---
+name: build
+description: Build Action
+
+inputs:
+  docker_image:
+    required: true
+    description: Docker image for build
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Build Project
+      id: build
+      shell: bash
+      run: |
+        # Load the build arguments
+        set +x
+        
+        # Build inside a docker container
+        docker run \
+          --rm \
+          --user $(id -u):$(id -g) \
+          -v $PWD:$PWD \
+          -w $PWD \
+          -e "GITHUB_WORKSPACE=${{ github.workspace }}" \
+          -e "BUILD_ARGS=${{ env.BUILD_ARGS }}" \
+          -e "KERNEL_VERSION=${{ env.KERNEL_VERSION }}" \
+          --privileged \
+          ${{ inputs.docker_image }} \
+          bash -c "
+            set +x
+            mkdir ${{ GITHUB_WORKSPACE }}/build
+            mkdir ${{ GITHUB_WORKSPACE }}/build/etc
+            mkdir ${{ GITHUB_WORKSPACE }}/build/etc/acdbdata
+            mkdir ${{ GITHUB_WORKSPACE }}/build/etc/acdbdata/qcm6490_rb3
+            mkdir ${{ GITHUB_WORKSPACE }}/build/etc/acdbdata/qcs8300
+            mkdir ${{ GITHUB_WORKSPACE }}/build/etc/acdbdata/qcs9075
+            mkdir ${{ GITHUB_WORKSPACE }}/build/etc/acdbdata/qcs9100
+        
+            cp -r qcom/qcm6490/card-defs.xml ${{ GITHUB_WORKSPACE }}/build/etc/
+            cp -r qcom/qcm6490/acdbdata/* ${{ GITHUB_WORKSPACE }}/build/etc/acdbdata/qcm6490_rb3/
+            cp -r qcom/qcs8300/acdbdata/* ${{ GITHUB_WORKSPACE }}/build/etc/acdbdata/qcs8300/
+            cp -r qcom/qcs9100/acdbdata/* ${{ GITHUB_WORKSPACE }}/build/etc/acdbdata/qcs9100/
+            cp -r qcom/qcs9075/acdbdata/* ${{ GITHUB_WORKSPACE }}/build/etc/acdbdata/qcs9075/
+            "
+
+    - name: Create build.tar
+      id: create_build_tar
+      shell: bash
+      run: |
+        # Create a tarball of the build directory
+        tar -czf build.tar -C ${{ github.workspace }}/build .
+        echo "Build tar created at ${{ github.workspace }}/build.tar"
+
+    - name: Upload build.tar
+      id: upload_build_tar
+      uses: actions/upload-artifact@v4
+      with:
+        name: build.tar
+        path: ${{ github.workspace }}/build.tar
+        retention-days: 1
