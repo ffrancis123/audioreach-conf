@@ -90,7 +90,12 @@ jobs:
 
               # Copy the arg build files to the mounted image
               cd ..
-              cp -R build/usr/lib* /tmp/rootfs/usr/lib/
+              # cp -R build/usr/lib* /tmp/rootfs/usr/lib/
+              cp -r ${{ github.workspace }}/build/etc/* /tmp/rootfs/etc/
+              cp -r ${{ github.workspace }}/build/etc/acdbdata/qcm6490_rb3/* /tmp/rootfs/etc/acdbdata/qcm6490_rb3/
+              cp -r ${{ github.workspace }}/build/etc/acdbdata/qcs8300/* /tmp/rootfs/etc/acdbdata/qcs8300/
+              cp -r ${{ github.workspace }}/build/etc/acdbdata/qcs9100/*  /tmp/rootfs/etc/acdbdata/qcs9100/
+              cp -r ${{ github.workspace }}/build/etc/acdbdata/qcs9075/*  /tmp/rootfs/etc/acdbdata/qcs9075/
               echo "Build files copied successfully"
               sync
               # Unmount the image
