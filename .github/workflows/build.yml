@@ -36,11 +36,10 @@ jobs:
         id: pull_sdk
         uses: ./.github/actions/aws-s3-exchanger
         with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          s3_bucket: qli-stg-kernel-gh-artifacts
+          s3_bucket: qli-prd-audior-gh-artifacts
           download_filename: ${{ env.SDK_NAME }}
           mode: download
+          location: Audioreach/meta-ar
 
       - name: Setup Directory Structure
         run: mkdir -p install/tmp

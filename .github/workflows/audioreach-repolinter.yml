@@ -8,9 +8,7 @@ on:
 
 jobs:
   repolinter:
-    runs-on:
-      group: GHA-Audioreach-SelfHosted-RG
-      labels: [ self-hosted, audior-prd-u2404-x64-large-od-ephem ]
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2

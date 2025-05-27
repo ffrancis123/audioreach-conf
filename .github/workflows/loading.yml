@@ -11,9 +11,7 @@ on:
 
 jobs:
   loading:
-    runs-on:
-      group: GHA-Audioreach-SelfHosted-RG
-      labels: [ self-hosted, audior-prd-u2404-x64-large-od-ephem ]
+    runs-on: ubuntu-latest
     outputs:
       build_args: ${{ steps.loading.outputs.build_args }}
     steps:

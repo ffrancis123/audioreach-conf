@@ -43,8 +43,7 @@ jobs:
         with:
           fetch-depth: 0
           repository: Audioreach/meta-ar-test
-          # token: ${{ secrets.PAT }}
-          token: ${{ secrets.QTI_FF }}
+          token: ${{ secrets.PAT }}
           
       - name: Print trigger
         run: |
@@ -76,8 +75,7 @@ jobs:
         with:
           fetch-depth: 0
           repository: Audioreach/meta-ar-test
-          # token: ${{ secrets.PAT }}
-          token: ${{ secrets.QTI_FF }}
+          token: ${{ secrets.PAT }}
 
       - name: "Update test definition ${{ matrix.target }}"
         run: |
